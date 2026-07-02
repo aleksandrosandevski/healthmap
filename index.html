@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>HBSC Europe Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ====================================== -->
+    <!-- HEADER -->
+    <!-- ====================================== -->
+
+    <header>
+
+        <div class="logo">
+
+            <div class="logoBox">
+
+                ❤
+
+            </div>
+
+            <div>
+
+                <h2>HealthMap</h2>
+
+                <span>Europe Child Health</span>
+
+            </div>
+
+        </div>
+
+        <div class="pageTitle">
+
+            <h1>Child Health Behaviour Map</h1>
+
+            <p>
+                Explore children's health behaviours across Europe
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ====================================== -->
+    <!-- CONTENT -->
+    <!-- ====================================== -->
+
+    <main>
+
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+
+
+            <section>
+
+                <h3>1. Select Year</h3>
+
+                <div class="yearButtons">
+
+                    <button data-year="2013-2014">2013-2014</button>
+
+                    <button data-year="2017-2018">2017-2018</button>
+
+                    <button
+                            class="active"
+                            data-year="2021-2022">
+
+                        2021-2022
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <section>
+
+                <h3>2. Select Age</h3>
+
+                <div class="ageButtons">
+
+                    <button class="active">11</button>
+
+                    <button>13</button>
+
+                    <button>15</button>
+
+                </div>
+
+            </section>
+
+
+
+            <section>
+
+                <h3>3. Indicator</h3>
+
+                <select id="indicator">
+
+                    <option>Overweight / Obese</option>
+
+                    <option>Underweight</option>
+
+                    <option>Drinking sugary soft drinks</option>
+
+                    <option>60 minutes MVPA daily</option>
+
+                    <option>Breakfast daily</option>
+
+                    <option>Eating fruit daily</option>
+
+                    <option>Eating vegetables daily</option>
+
+                    <option>Eating sweets</option>
+
+                    <option>VPA 3+ times/week</option>
+
+                    <option>Think they are too fat</option>
+
+                </select>
+
+            </section>
+
+
+
+            <section>
+
+                <h3>Legend (%)</h3>
+
+                <div class="legend">
+
+                    <div><span class="legend1"></span>40+</div>
+
+                    <div><span class="legend2"></span>30-40</div>
+
+                    <div><span class="legend3"></span>20-30</div>
+
+                    <div><span class="legend4"></span>10-20</div>
+
+                    <div><span class="legend5"></span>Below 10</div>
+
+                    <div><span class="legend6"></span>No Data</div>
+
+                </div>
+
+            </section>
+
+        </aside>
+
+
+
+        <!-- ====================================== -->
+        <!-- MAP -->
+        <!-- ====================================== -->
+
+        <section class="mapPanel">
+
+            <div class="mapToolbar">
+
+                <button id="zoomIn">+</button>
+
+                <button id="zoomOut">−</button>
+
+                <button id="resetView">⌂</button>
+
+            </div>
+
+
+
+            <!-- SVG loads here -->
+
+            <div id="mapContainer">
+
+            </div>
+
+
+
+            <div id="tooltip">
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ====================================== -->
+        <!-- COUNTRY -->
+        <!-- ====================================== -->
+
+        <aside class="countryPanel">
+
+            <div class="countryHeader">
+
+                <img
+                        id="countryFlag"
+                        src="assets/flags/germany.svg">
+
+                <div>
+
+                    <h2 id="countryName">
+
+                        Germany
+
+                    </h2>
+
+                    <p>
+
+                        11 Years
+
+                        •
+
+                        2021-2022
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="countryNumbers">
+
+                <div>
+
+                    <label>Girls</label>
+
+                    <strong id="girlsValue">
+
+                        17%
+
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <label>Boys</label>
+
+                    <strong id="boysValue">
+
+                        26%
+
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <label>Total</label>
+
+                    <strong id="totalValue">
+
+                        22%
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="averageBox">
+
+                <h3>
+
+                    Compared to HBSC Average
+
+                </h3>
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+
+                        <th></th>
+
+                        <th>Country</th>
+
+                        <th>Average</th>
+
+                        <th>Difference</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="comparisonTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+
+            <div class="ranking">
+
+                <h3>
+
+                    Top 5 Countries
+
+                </h3>
+
+                <ol id="topFive">
+
+                </ol>
+
+            </div>
+
+        </aside>
+
+
+
+    </main>
+
+
+
+    <!-- ====================================== -->
+    <!-- FOOTER -->
+    <!-- ====================================== -->
+
+    <footer>
+
+        <div class="averageCard">
+
+            <span>Girls Average</span>
+
+            <h2 id="avgGirls">
+
+                20%
+
+            </h2>
+
+        </div>
+
+
+
+        <div class="averageCard">
+
+            <span>Boys Average</span>
+
+            <h2 id="avgBoys">
+
+                30%
+
+            </h2>
+
+        </div>
+
+
+
+        <div class="averageCard">
+
+            <span>Total Average</span>
+
+            <h2 id="avgTotal">
+
+                25%
+
+            </h2>
+
+        </div>
+
+    </footer>
+
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>

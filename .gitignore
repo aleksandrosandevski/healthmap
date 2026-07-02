@@ -1,0 +1,14 @@
+# JetBrains
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+
+# Node (if you ever use it)
+node_modules/
