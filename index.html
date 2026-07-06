@@ -1,396 +1,322 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HBSC Europe Dashboard</title>
 
     <link rel="stylesheet" href="css/style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
 </head>
 
 <body>
 
-<div class="dashboard">
+<div class="container">
 
-    <!-- ====================================== -->
-    <!-- HEADER -->
-    <!-- ====================================== -->
+    <!-- ================= HEADER ================= -->
 
     <header>
 
         <div class="logo">
 
-            <div class="logoBox">
-
-                ❤
-
-            </div>
+            <div class="logo-icon">❤</div>
 
             <div>
 
-                <h2>HealthMap</h2>
+                <h1>HealthMap</h1>
 
-                <span>Europe Child Health</span>
+                <p>HBSC Europe Dashboard</p>
 
             </div>
 
         </div>
 
-        <div class="pageTitle">
+        <div class="search-box">
 
-            <h1>Child Health Behaviour Map</h1>
-
-            <p>
-                Explore children's health behaviours across Europe
-            </p>
+            <input
+                    type="text"
+                    placeholder="Search country..."
+                    id="search">
 
         </div>
 
     </header>
 
 
+    <!-- ================= FILTERS ================= -->
 
-    <!-- ====================================== -->
-    <!-- CONTENT -->
-    <!-- ====================================== -->
+    <section class="filters">
 
-    <main>
+        <!-- YEAR -->
 
+        <div class="filter-group">
 
+            <h3>Survey</h3>
 
-        <!-- SIDEBAR -->
+            <div class="radio-group">
 
-        <aside class="sidebar">
+                <label>
 
+                    <input type="radio" name="year" value="2013-2014">
 
+                    <span>2013–2014</span>
 
-            <section>
+                </label>
 
-                <h3>1. Select Year</h3>
+                <label>
 
-                <div class="yearButtons">
+                    <input type="radio" name="year" value="2017-2018">
 
-                    <button data-year="2013-2014">2013-2014</button>
+                    <span>2017–2018</span>
 
-                    <button data-year="2017-2018">2017-2018</button>
+                </label>
 
-                    <button
-                            class="active"
-                            data-year="2021-2022">
+                <label>
 
-                        2021-2022
+                    <input type="radio"
+                           name="year"
+                           value="2021-2022"
+                           checked>
 
-                    </button>
+                    <span>2021–2022</span>
 
-                </div>
-
-            </section>
-
-
-
-            <section>
-
-                <h3>2. Select Age</h3>
-
-                <div class="ageButtons">
-
-                    <button class="active">11</button>
-
-                    <button>13</button>
-
-                    <button>15</button>
-
-                </div>
-
-            </section>
-
-
-
-            <section>
-
-                <h3>3. Indicator</h3>
-
-                <select id="indicator">
-
-                    <option>Overweight / Obese</option>
-
-                    <option>Underweight</option>
-
-                    <option>Drinking sugary soft drinks</option>
-
-                    <option>60 minutes MVPA daily</option>
-
-                    <option>Breakfast daily</option>
-
-                    <option>Eating fruit daily</option>
-
-                    <option>Eating vegetables daily</option>
-
-                    <option>Eating sweets</option>
-
-                    <option>VPA 3+ times/week</option>
-
-                    <option>Think they are too fat</option>
-
-                </select>
-
-            </section>
-
-
-
-            <section>
-
-                <h3>Legend (%)</h3>
-
-                <div class="legend">
-
-                    <div><span class="legend1"></span>40+</div>
-
-                    <div><span class="legend2"></span>30-40</div>
-
-                    <div><span class="legend3"></span>20-30</div>
-
-                    <div><span class="legend4"></span>10-20</div>
-
-                    <div><span class="legend5"></span>Below 10</div>
-
-                    <div><span class="legend6"></span>No Data</div>
-
-                </div>
-
-            </section>
-
-        </aside>
-
-
-
-        <!-- ====================================== -->
-        <!-- MAP -->
-        <!-- ====================================== -->
-
-        <section class="mapPanel">
-
-            <div class="mapToolbar">
-
-                <button id="zoomIn">+</button>
-
-                <button id="zoomOut">−</button>
-
-                <button id="resetView">⌂</button>
+                </label>
 
             </div>
 
+        </div>
 
 
-            <!-- SVG loads here -->
 
-            <div id="mapContainer">
+        <!-- AGE -->
+
+        <div class="filter-group">
+
+            <h3>Age</h3>
+
+            <div class="radio-group">
+
+                <label>
+
+                    <input type="radio" name="age" value="11" checked>
+
+                    <span>11 years</span>
+
+                </label>
+
+                <label>
+
+                    <input type="radio" name="age" value="13">
+
+                    <span>13 years</span>
+
+                </label>
+
+                <label>
+
+                    <input type="radio" name="age" value="15">
+
+                    <span>15 years</span>
+
+                </label>
 
             </div>
 
-
-
-            <div id="tooltip">
-
-            </div>
-
-        </section>
+        </div>
 
 
 
-        <!-- ====================================== -->
-        <!-- COUNTRY -->
-        <!-- ====================================== -->
+        <!-- INDICATOR -->
 
-        <aside class="countryPanel">
+        <div class="filter-group">
 
-            <div class="countryHeader">
+            <h3>Indicator</h3>
 
-                <img
-                        id="countryFlag"
-                        src="assets/flags/germany.svg">
+            <select id="indicator">
+
+                <option value="breakfast-weekday">Breakfast (Weekdays)</option>
+                <option value="brush-teeth">Teeth Brushing</option>
+                <option value="fruit-daily">Fruit Daily</option>
+                <option value="vegetables-daily">Vegetables Daily</option>
+                <option value="soft-drinks-daily">Soft Drinks</option>
+                <option value="mvpa-daily">MVPA Daily</option>
+                <option value="vigorous-activity">Vigorous Activity</option>
+                <option value="sweets-daily">Sweets</option>
+                <option value="opinion-fat">Perception (Too Fat)</option>
+                <option value="overweight-obese">Overweight / Obese</option>
+                <option value="yearly-injury">Injury</option>
+            </select>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= SUMMARY ================= -->
+
+    <section class="summary">
+
+        <div class="summary-card">
+
+            <h2>HBSC Average</h2>
+
+            <span id="averageValue">25%</span>
+
+        </div>
+
+        <div class="summary-card">
+
+            <h2>Countries</h2>
+
+            <span id="countryCount">38</span>
+
+        </div>
+
+        <h2>Current Selection</h2>
+
+             <span id="currentSelection">
+
+                2021–2022 • 11 Years
+
+             </span>
+
+        <p id="indicatorTitle">
+
+            Overweight / Obese
+
+        </p>
+
+    </section>
+
+
+
+    <!-- ================= COUNTRY GRID ================= -->
+
+    <section>
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+
+                Countries
+
+            </h2>
+
+            <span id="countryCounter">
+
+                Showing 38 Countries
+
+             </span>
+
+        </div>
+
+        <div id="countryGrid" class="country-grid">
+
+            <!-- JS will generate country cards -->
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= RANKINGS ================= -->
+
+    <section class="ranking-section">
+
+        <div class="ranking">
+
+            <h2>Highest 5</h2>
+
+            <ol id="topFive"></ol>
+
+        </div>
+
+        <div class="ranking">
+
+            <h2>Lowest 5</h2>
+
+            <ol id="bottomFive"></ol>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= MODAL ================= -->
+
+    <div id="countryModal" class="modal">
+
+        <div class="modal-content">
+
+            <button id="closeModal">
+
+                ×
+
+            </button>
+
+            <div class="modal-header">
+
+                <img id="modalFlag">
 
                 <div>
 
-                    <h2 id="countryName">
+                    <h2 id="modalCountry"></h2>
 
-                        Germany
-
-                    </h2>
-
-                    <p>
-
-                        11 Years
-
-                        •
-
-                        2021-2022
-
-                    </p>
+                    <p id="modalIndicator"></p>
 
                 </div>
 
             </div>
 
+            <table>
 
+                <tr>
 
-            <div class="countryNumbers">
+                    <td>Girls</td>
 
-                <div>
+                    <td id="girlsValue"></td>
 
-                    <label>Girls</label>
+                </tr>
 
-                    <strong id="girlsValue">
+                <tr>
 
-                        17%
+                    <td>Boys</td>
 
-                    </strong>
+                    <td id="boysValue"></td>
 
-                </div>
+                </tr>
 
-                <div>
+                <tr>
 
-                    <label>Boys</label>
+                    <td>Average</td>
 
-                    <strong id="boysValue">
+                    <td id="averageCountry"></td>
 
-                        26%
+                </tr>
 
-                    </strong>
+                <tr>
 
-                </div>
+                    <td>HBSC Average</td>
 
-                <div>
+                    <td id="averageHBSC"></td>
 
-                    <label>Total</label>
+                </tr>
 
-                    <strong id="totalValue">
+            </table>
 
-                        22%
+        </div>
 
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="averageBox">
-
-                <h3>
-
-                    Compared to HBSC Average
-
-                </h3>
-
-                <table>
-
-                    <thead>
-
-                    <tr>
-
-                        <th></th>
-
-                        <th>Country</th>
-
-                        <th>Average</th>
-
-                        <th>Difference</th>
-
-                    </tr>
-
-                    </thead>
-
-                    <tbody id="comparisonTable">
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-
-            <div class="ranking">
-
-                <h3>
-
-                    Top 5 Countries
-
-                </h3>
-
-                <ol id="topFive">
-
-                </ol>
-
-            </div>
-
-        </aside>
-
-
-
-    </main>
-
-
-
-    <!-- ====================================== -->
-    <!-- FOOTER -->
-    <!-- ====================================== -->
-
+    </div>
     <footer>
 
-        <div class="averageCard">
+        HBSC Europe Dashboard
 
-            <span>Girls Average</span>
+        Data Source: WHO HBSC Survey
 
-            <h2 id="avgGirls">
-
-                20%
-
-            </h2>
-
-        </div>
-
-
-
-        <div class="averageCard">
-
-            <span>Boys Average</span>
-
-            <h2 id="avgBoys">
-
-                30%
-
-            </h2>
-
-        </div>
-
-
-
-        <div class="averageCard">
-
-            <span>Total Average</span>
-
-            <h2 id="avgTotal">
-
-                25%
-
-            </h2>
-
-        </div>
+        Frontend: HTML • CSS • JavaScript
 
     </footer>
 
