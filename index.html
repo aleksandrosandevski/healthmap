@@ -31,12 +31,13 @@
 
         </div>
 
-        <div class="search-box">
+        <div class="header-info">
 
-            <input
-                    type="text"
-                    placeholder="Search country..."
-                    id="search">
+    <span>
+
+        Interactive Country Explorer
+
+    </span>
 
         </div>
 
@@ -142,6 +143,7 @@
                 <option value="mvpa-daily">MVPA Daily</option>
                 <option value="vigorous-activity">Vigorous Activity</option>
                 <option value="sweets-daily">Sweets</option>
+                <option value="underweight">Underweight</option>
                 <option value="opinion-fat">Perception (Too Fat)</option>
                 <option value="overweight-obese">Overweight / Obese</option>
                 <option value="yearly-injury">Injury</option>
@@ -173,19 +175,23 @@
 
         </div>
 
-        <h2>Current Selection</h2>
+        <div class="summary-card">
 
-             <span id="currentSelection">
+            <h2>Current Selection</h2>
 
-                2021–2022 • 11 Years
+            <span id="currentSelection">
 
-             </span>
+            2021–2022 • 11 Years
 
-        <p id="indicatorTitle">
+        </span>
 
-            Overweight / Obese
+            <p id="indicatorTitle">
 
-        </p>
+                Overweight / Obese
+
+            </p>
+
+        </div>
 
     </section>
 
@@ -303,6 +309,12 @@
 
                     <td id="averageHBSC"></td>
 
+                </tr>
+
+                <tr>
+                    <td>Difference</td>
+
+                    <td id="differenceValue"></td>
                 </tr>
 
             </table>

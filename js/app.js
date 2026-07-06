@@ -5,10 +5,67 @@
 ========================= */
 
 const state = {
-    year: "2021-2022",
-    age: "11",
-    indicator: "overweight-obese",
+
+    year: "",
+    age: "",
+    indicator: "",
     data: null
+
+};
+
+const unavailable = {
+    "2013-2014-11": [
+        "vegetables-daily",
+        "sweets-daily",
+        "vigorous-activity",
+        "underweight"
+    ],
+
+    "2013-2014-13": [
+        "vegetables-daily",
+        "sweets-daily",
+        "vigorous-activity",
+        "underweight"
+    ],
+
+    "2013-2014-15": [
+        "vegetables-daily",
+        "sweets-daily",
+        "vigorous-activity",
+        "underweight"
+    ],
+
+    "2017-2018-11": [
+        "opinion-fat",
+        "breakfast-weekday",
+        "vigorous-activity"
+    ],
+
+    "2017-2018-13": [
+        "opinion-fat"
+    ],
+
+    "2017-2018-15": [
+        "breakfast-weekday",
+        "opinion-fat",
+        "soft-drinks-daily",
+        "overweight-obese"
+    ],
+
+    "2021-2022-11": [
+        "brush-teeth",
+        "yearly-injury"
+    ],
+
+    "2021-2022-13": [
+        "brush-teeth",
+        "yearly-injury"
+    ],
+
+    "2021-2022-15": [
+        "brush-teeth",
+        "yearly-injury"
+    ]
 };
 
 /* =========================
@@ -22,6 +79,8 @@ const bottomFiveEl = document.getElementById("bottomFive");
 const hbscAverageEl = document.getElementById("averageValue");
 const countryCountEl = document.getElementById("countryCount");
 const indicatorTitleEl = document.getElementById("indicatorTitle");
+const currentSelection = document.getElementById("currentSelection");
+const countryCounter = document.getElementById("countryCounter");
 
 const searchInput = document.getElementById("search");
 
@@ -39,12 +98,21 @@ const girlsValue = document.getElementById("girlsValue");
 const boysValue = document.getElementById("boysValue");
 const averageCountry = document.getElementById("averageCountry");
 const averageHBSC = document.getElementById("averageHBSC");
+const differenceValue =  document.getElementById("differenceValue");
 
 /* =========================
    INIT
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+    state.year =
+        document.querySelector("input[name='year']:checked").value;
+
+    state.age =
+        document.querySelector("input[name='age']:checked").value;
+
+    state.indicator =
+        document.getElementById("indicator").value;
     setupListeners();
     loadData();
 });
@@ -74,7 +142,7 @@ function setupListeners() {
         loadData();
     });
 
-    searchInput.addEventListener("input", render);
+
 
     closeModalBtn.addEventListener("click", () => {
         modal.style.display = "none";
@@ -85,6 +153,38 @@ function setupListeners() {
             modal.style.display = "none";
         }
     });
+
+}
+
+function updateIndicatorAvailability() {
+
+    const select = document.getElementById("indicator");
+
+    let currentDisabled = false;
+
+    [...select.options].forEach(option => {
+
+        const key = `${state.year}-${state.age}`;
+
+        const disabled =
+            unavailable[key]?.includes(option.value);
+
+        option.disabled = disabled;
+
+        if (option.value === state.indicator && disabled)
+            currentDisabled = true;
+
+    });
+
+    if (currentDisabled) {
+
+        const firstAvailable =
+            [...select.options].find(o => !o.disabled);
+
+        select.value = firstAvailable.value;
+
+        state.indicator = firstAvailable.value;
+    }
 }
 
 /* =========================
@@ -92,6 +192,8 @@ function setupListeners() {
 ========================= */
 
 async function loadData() {
+
+    updateIndicatorAvailability();
 
     const path = `data/${state.year}/${state.age}/${state.indicator}.json`;
 
@@ -105,7 +207,40 @@ async function loadData() {
         render();
 
     } catch (err) {
-        console.error("Failed to load:", path, err);
+
+        console.warn("Missing dataset:", path);
+
+        state.data = null;
+
+        countryGrid.innerHTML = `
+        <div class="empty-state">
+
+            <h2>No data available</h2>
+
+            <p>
+
+                This indicator was not collected
+                for this survey year and age group.
+
+            </p>
+
+        </div>
+    `;
+
+        topFiveEl.innerHTML = "";
+        bottomFiveEl.innerHTML = "";
+
+        hbscAverageEl.textContent = "--";
+        countryCountEl.textContent = "--";
+
+        indicatorTitleEl.textContent =
+            "No data available";
+
+        currentSelection.textContent =
+            `${state.year} • ${state.age} Years`;
+
+        countryCounter.textContent =
+            "Showing 0 Countries";
     }
 }
 
@@ -115,9 +250,20 @@ async function loadData() {
 
 function updateHeader(json) {
 
-    hbscAverageEl.textContent = json.summary.hbsc_average_total + "%";
-    countryCountEl.textContent = json.data.length;
-    indicatorTitleEl.textContent = json.title;
+    hbscAverageEl.textContent =
+        json.summary.hbsc_average_total + "%";
+
+    countryCountEl.textContent =
+        json.data.length;
+
+    indicatorTitleEl.textContent =
+        json.title;
+
+    currentSelection.textContent =
+        `${state.year} • ${state.age} Years`;
+
+    countryCounter.textContent =
+        `Showing ${json.data.length} Countries`;
 }
 
 /* =========================
@@ -128,25 +274,22 @@ function render() {
 
     if (!state.data) return;
 
-    const query = searchInput.value.toLowerCase();
-    let data = state.data.data;
-
-    if (query) {
-        data = data.filter(c =>
-            c.country.toLowerCase().includes(query)
-        );
-    }
-
     const hbscAvg = state.data.summary.hbsc_average_total;
 
-    const enriched = data.map(c => {
-        const avg = (c.girls + c.boys) / 2;
+    const enriched = state.data.data.map(c => {
+
+        const girls = c.girls ?? 0;
+        const boys = c.boys ?? 0;
+        const avg = (girls + boys) / 2;
 
         return {
             ...c,
+            girls,
+            boys,
             avg,
             diff: avg - hbscAvg
         };
+
     });
 
     renderCards(enriched);
@@ -182,12 +325,12 @@ function renderCards(data) {
 
                 <div>
                     <span>Girls</span>
-                    <strong>${c.girls}%</strong>
+                    <strong>${c.girls ?? "-"}%</strong>
                 </div>
 
                 <div>
                     <span>Boys</span>
-                    <strong>${c.boys}%</strong>
+                    <strong>${c.boys ?? "-"}%</strong>
                 </div>
 
                 <div>
@@ -231,25 +374,43 @@ function renderRanking(data) {
 function openModal(country) {
 
     const hbscAvg = state.data.summary.hbsc_average_total;
-    const avg = (country.girls + country.boys) / 2;
 
-    modalFlag.src = `assets/flags/${formatFlag(country.country)}.svg`;
-    modalFlag.alt = country.country;
+    const avg =
+        ((country.girls ?? 0) + (country.boys ?? 0)) / 2;
+
+    const diff = avg - hbscAvg;
+
+    modalFlag.src =
+        `assets/flags/${formatFlag(country.country)}.svg`;
+
+    modalFlag.alt = `${country.country} flag`;
 
     modalCountry.textContent = country.country;
+
     modalIndicator.textContent = state.data.title;
 
-    girlsValue.textContent = country.girls + "%";
-    boysValue.textContent = country.boys + "%";
-    averageCountry.textContent = avg.toFixed(1) + "%";
-    averageHBSC.textContent = hbscAvg + "%";
+    girlsValue.textContent = `${country.girls}%`;
+
+    boysValue.textContent = `${country.boys}%`;
+
+    averageCountry.textContent =
+        avg.toFixed(1) + "%";
+
+    averageHBSC.textContent =
+        hbscAvg + "%";
+
+    differenceValue.textContent =
+        `${diff >= 0 ? "+" : ""}${diff.toFixed(1)}%`;
 
     modal.style.display = "flex";
+
 }
 
 /* =========================
    FLAGS
 ========================= */
+
+
 
 function formatFlag(country) {
 
