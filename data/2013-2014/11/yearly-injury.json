@@ -42,7 +42,7 @@
     { "country": "Greenland", "girls": 33, "boys": 33 },
     { "country": "Sweden", "girls": 27, "boys": 37 },
     { "country": "Slovakia", "girls": 28, "boys": 33 },
-    { "country": "MKD", "girls": 16, "boys": 32 }
+    { "country": "Macedonia", "girls": 16, "boys": 32 }
   ],
   "summary": {
     "hbsc_average_gender": { "girls": 39, "boys": 49 },
