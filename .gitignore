@@ -7,8 +7,10 @@
 # Windows
 Thumbs.db
 
+.vscode/
+
 # Logs
 *.log
 
-# Node (if you ever use it)
+# Node
 node_modules/
